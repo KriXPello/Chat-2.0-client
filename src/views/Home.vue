@@ -43,6 +43,8 @@
       </div>
     </div>
 
+    <audio src="*sound-address*" preload ref="audio"></audio>
+
   </div>
 </template>
 
@@ -51,7 +53,7 @@ import MessagesBlock from '../components/MessagesBlock';
 import UsersBlock from '../components/UsersBlock';
 import LoginOverlay from '../components/LoginOverlay';
 
-const address = 'ws://kuibarov.ru:2264';
+const address = 'ws://localhost:2264';
 
 export default {
   name: 'Home',
@@ -117,6 +119,17 @@ export default {
           break;
         }
         case 'message': {
+          if (! (message.data.name == this.name)) {
+            const audio = this.$refs.audio;
+            
+            audio.volume = 0.5;
+
+            audio.pause();
+            audio.currentTime = 0;
+            
+            audio.play();
+          }
+
           this.messages.push(message.data);
           break;
         }
