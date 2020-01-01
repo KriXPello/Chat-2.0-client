@@ -6,7 +6,7 @@
         class="message-container"
         v-for="message in messages"
         :key="message._id"
-        :style="message.text.includes(name + ',')
+        :style="message.text.includes('@' + name)
           ? 'background-color: rgb(120, 120, 120, 0.4)'
           : ''
         "
@@ -65,7 +65,7 @@ export default {
     },
     refer(name) {
       if (name && ! this.text.includes(name)) {
-        name = name + ', ';
+        name = '@' + name;
 
         this.text += name;
 

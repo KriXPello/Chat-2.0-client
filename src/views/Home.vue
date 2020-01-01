@@ -51,7 +51,7 @@ import MessagesBlock from '../components/MessagesBlock';
 import UsersBlock from '../components/UsersBlock';
 import LoginOverlay from '../components/LoginOverlay';
 
-const address = 'ws://localhost:2264';
+const address = 'ws://kuibarov.ru:2264';
 
 export default {
   name: 'Home',
