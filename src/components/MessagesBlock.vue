@@ -2,18 +2,21 @@
   <div id="messages-block">
     
     <div id="messages-list">
-      <div
-        class="message-container"
-        v-for="message in messages"
-        :key="message._id"
-        :style="message.text.includes('@' + name)
-          ? 'background-color: rgb(120, 120, 120, 0.4)'
-          : ''
-        "
-      >
-        <b class="message-name">{{ message.name }}</b>
-        <p class="message-text"> {{ message.text }}</p>
-      </div>
+      <transition-group name="list">
+        <div
+          class="message-container"
+          v-for="message in messages"
+          :key="message._id"
+          :style="message.text.includes('@' + name)
+            ? 'background-color: rgb(120, 120, 120, 0.4)'
+            : ''
+          "
+        >
+          <b class="message-name">{{ message.name }}</b>
+          <p class="message-text"> {{ message.text }}</p>
+        </div>  
+      </transition-group>
+      
     </div>
 
     <div class="input-block">
@@ -86,6 +89,7 @@ export default {
   border-radius: 4px;
   box-sizing: border-box;
   padding: 6px;
+  overflow-x: hidden;
   overflow-y: auto;
 }
 .input-block {
@@ -124,7 +128,7 @@ p {
 }
 @media (max-width: 640px) {
   #messages-list {
-    height: calc(100% -50px);
+    height: calc(100% - 50px);
     border-radius: 0;
     padding: 0;
   }
@@ -137,4 +141,14 @@ p {
     border-radius: 0;
   }
 }
+
+/* Анимации transition Vue */
+.list-enter-active, .list-leave-active {
+  transition: all 500ms;
+}
+.list-enter, .list-leave-to  {
+  opacity: 0;
+  transform: translateX(30px);
+}
+/*_____________________________________*/
 </style>

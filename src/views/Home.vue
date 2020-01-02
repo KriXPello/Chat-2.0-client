@@ -23,19 +23,26 @@
       <UsersBlock :users="users" :send="send" @refer="refer" class="ub-1" />
     </div>
 
-    <div id="pullout-overlay" v-if="pullout">
-      <div class="po-1" @click="pullout = false"></div>
-      <div class="po-2">
-        <UsersBlock :users="users" :send="send" @refer="refer" />
-      </div>
-    </div>
+    <transition name="fade">
+      <div id="pullout-overlay" v-show="pullout">
+        <div class="po-1" @click="pullout = false"></div>
+      
+      <transition name="po-slide">
+        <div class="po-2" v-if="pullout">
+          <UsersBlock :users="users" :send="send" @refer="refer" />
+        </div>
+      </transition>
+      </div>  
+    </transition>
 
-    <LoginOverlay
-      v-if="loginDialog"
-      :send="send"
-      @close="loginDialog = false"
-    />
-
+    <transition name="fade">
+      <LoginOverlay
+        v-if="loginDialog"
+        :send="send"
+        @close="loginDialog = false"
+      />  
+    </transition>
+    
     <div id="loading-overlay" v-if="!connected">
       <div>
         <h2>Подключение...</h2>
@@ -43,7 +50,7 @@
       </div>
     </div>
 
-    <audio src="*sound-address*" preload ref="audio"></audio>
+    <audio src="*sound address*" preload ref="audio"></audio>
 
   </div>
 </template>
@@ -52,6 +59,7 @@
 import MessagesBlock from '../components/MessagesBlock';
 import UsersBlock from '../components/UsersBlock';
 import LoginOverlay from '../components/LoginOverlay';
+import { watch } from 'fs';
 
 const address = 'ws://localhost:2264';
 
@@ -119,7 +127,10 @@ export default {
           break;
         }
         case 'message': {
-          if (! (message.data.name == this.name)) {
+          const notify = (! message.data.name == this.name) 
+            || message.data.text.includes('@' + this.name);
+
+          if (notify) {
             const audio = this.$refs.audio;
             
             audio.volume = 0.5;
@@ -156,6 +167,13 @@ export default {
   },
   mounted() {
     this.connect();
+  },
+  watch: {
+    messages(val) {
+      if (val.length == 0) {
+        this.pullout = false;
+      }
+    }
   }
 }
 </script>
@@ -243,13 +261,13 @@ export default {
   height: 100vh;
 }
 #pullout-overlay .po-2 {
-  position: relative;
+  position: absolute;
+  right: 0;
   width: 200px;
   height: 100vh;
   box-sizing: border-box;
   background-color: #fff;
   border-left: solid rgb(216, 216, 216) 1px;
-  animation: slide-left 200ms 1 ease-out;
 }
 #loading-overlay {
   position: absolute;
@@ -332,6 +350,21 @@ input:focus {
     display: none;
   }
 }
+
+/* Анимации для transition Vue */
+.fade-enter-active {
+  animation: appear 200ms;
+}
+.fade-leave-active {
+  animation: appear 200ms reverse;
+}
+.po-slide-enter-active {
+  animation: slide-left 500ms;
+}
+.po-slide-leave-active {
+  animation: slide-left 500ms reverse;
+}
+/*__________________________________*/
 
 @keyframes appear {
   0% { opacity: 0 }

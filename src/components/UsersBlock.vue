@@ -3,13 +3,15 @@
 
     <div class="remove-block">
       <button @click="confirmation = !confirmation">Удалить все сообщения</button>
-      <div v-if="confirmation" class="remove-confirmation">
-        <b>Вы действительно хотите удалить все сообщения у всех пользователей?</b>
-        <div>
-          <button @click="removeMessages()">Да</button>
-          <button @click="confirmation = false">Нет</button>  
-        </div>
-      </div>
+      <transition name="confirmation">
+        <div v-if="confirmation" class="remove-confirmation">
+          <b>Вы действительно хотите удалить все сообщения у всех пользователей?</b>
+          <div>
+            <button @click="removeMessages()">Да</button>
+            <button @click="confirmation = false">Нет</button>  
+          </div>
+        </div>  
+      </transition>
     </div>
 
     <div class="users-list">
@@ -91,7 +93,6 @@ export default {
   height: 140px;
   background-color: #fff;
   z-index: 1;
-  animation: append 300ms 1 ease-out;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
   box-sizing: border-box;
   padding: 4px;
@@ -109,21 +110,23 @@ export default {
   margin-bottom: 4px;
 }
 
-@keyframes append {
-  0% {
-    top: -220px;
-    opacity: 0;
-  }
-  100% {
-    top: 0;
-    opacity: 1;
-  }
+/* Анимации transition Vue */
+.confirmation-enter-active, .confirmation-leave-active {
+  transition: all 1s;
+}
+.confirmation-enter, .confirmation-leave-to {
+  opacity: 0;
+  transform: translateY(-100px);
 }
 
 @media (max-width: 640px) {
-  @keyframes append {
-    0% { opacity: 0 }
-    100% { opacity: 1 }
+  .confirmation-enter-active, .confirmation-leave-active {
+    transition: all 500ms;
+  }
+  .confirmation-enter, .confirmation-leave-to {
+    opacity: 0;
+    transform: none;
   }
 }
+/*________________________________________________________*/
 </style>

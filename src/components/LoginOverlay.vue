@@ -70,7 +70,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  animation: appear 500ms 1 ease-out;
 }
 .close-button-row {
   height: 0px;
