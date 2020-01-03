@@ -37,7 +37,7 @@
 <script>
 export default {
   name: 'MessagesBlock',
-  props: [ 'messages', 'send', 'refer' ],
+  props: [ 'messages', 'send', 'refer', 'name' ],
   data: () => {
     return {
       text: '',
