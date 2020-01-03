@@ -37,7 +37,7 @@
 <script>
 export default {
   name: 'MessagesBlock',
-  props: [ 'messages', 'send', 'refer', 'name' ],
+  props: [ 'messages', 'send', 'refer' ],
   data: () => {
     return {
       text: '',
@@ -67,15 +67,15 @@ export default {
       }, 10);
     },
     refer(name) {
-      if (name && ! this.text.includes(name)) {
-        name = '@' + name;
+      if (!! name && ! this.text.includes('@' + name)) {
+        name = '@' + name + ' ';
 
         this.text += name;
 
         this.$refs.input.focus();
-        
-        this.$emit('unrefer');
       }
+      
+      this.$emit('unrefer');
     }
   }
 }
@@ -114,6 +114,8 @@ export default {
   background-color: rgb(241, 241, 241);
   box-sizing: border-box;
   padding: 6px;
+  padding-top: 4px;
+  margin-top: 2px;
 }
 .message-name {
   word-break: break-all;

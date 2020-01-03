@@ -54,11 +54,18 @@
       </div>
     </div>
 
-    <!-- Необходимо указать ссылку на звук, который будет проигрываться когда приходит сообщение -->
+    <!-- Необходимо указать ссылки на звуки, которые будут проигрываться когда приходит сообщение/вас упоминают -->
+    <!-- Звук входящего сообщения -->
     <audio
-      src="*address*"
+      src="http://site.ru/sounds/MessageSound.mp3"
       preload
-      ref="audio"
+      ref="messageAudio"
+    ></audio>
+    <!-- Звук упоминания -->
+    <audio
+      src="http://site.ru/sounds/MentionSound.wav"
+      preload
+      ref="mentionAudio"
     ></audio>
 
   </div>
@@ -138,17 +145,20 @@ export default {
           break;
         }
         case 'message': {
-          const notify = (! message.data.name == this.name) 
-            || message.data.text.includes('@' + this.name);
+          let audio = null;
 
-          if (notify) {
-            const audio = this.$refs.audio;
-            
+          if (message.data.text.includes('@' + this.name)) {
+            audio = this.$refs.mentionAudio;
+          } else if (message.data.name != this.name) {
+            audio = this.$refs.messageAudio;
+          }
+
+          if (audio) {
             audio.volume = 0.5;
 
             audio.pause();
             audio.currentTime = 0;
-            
+
             audio.play();
           }
 
@@ -170,7 +180,8 @@ export default {
         } catch (err) {}
       }
     },
-    refer(name) { 
+    refer(name) {
+      this.toRefer = '';
       this.toRefer = name;
       this.pullout = false;
     },
