@@ -127,6 +127,9 @@ export default {
     opacity: 0;
     transform: none;
   }
+  .users-list {
+    overflow-y: scroll !important;
+  }
 }
 /*________________________________________________________*/
 </style>

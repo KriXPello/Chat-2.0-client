@@ -24,15 +24,19 @@
     </div>
 
     <transition name="fade">
-      <div id="pullout-overlay" v-show="pullout">
+      <vue100vh
+        :css="{ height: '100rvh' }"
+        id="pullout-overlay"
+        v-show="pullout"
+      >
         <div class="po-1" @click="pullout = false"></div>
       
-      <transition name="po-slide">
-        <div class="po-2" v-if="pullout">
-          <UsersBlock :users="users" :send="send" @refer="refer" />
-        </div>
-      </transition>
-      </div>  
+        <transition name="po-slide">
+          <vue100vh :css="{ height: '100rvh' }" class="po-2" v-if="pullout">
+            <UsersBlock :users="users" :send="send" @refer="refer" />
+          </vue100vh>
+        </transition>
+      </vue100vh>  
     </transition>
 
     <transition name="fade">
@@ -49,8 +53,12 @@
         <div class="loader"></div>  
       </div>
     </div>
-
-    <audio src="*sound address*" preload ref="audio"></audio>
+    <!-- Обязательно введите адрес ниже! -->
+    <audio
+      src="*address to sound*" 
+      preload
+      ref="audio"
+    ></audio>
 
   </div>
 </template>
@@ -59,8 +67,9 @@
 import MessagesBlock from '../components/MessagesBlock';
 import UsersBlock from '../components/UsersBlock';
 import LoginOverlay from '../components/LoginOverlay';
-import { watch } from 'fs';
+import vue100vh from 'vue-100vh';
 
+// адрес к серверной части
 const address = 'ws://localhost:2264';
 
 export default {
@@ -69,6 +78,7 @@ export default {
     MessagesBlock,
     UsersBlock,
     LoginOverlay,
+    vue100vh,
   },
   data: () => {
     return {
@@ -250,8 +260,7 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
   background-color: rgba(128, 128, 128, 0.5);
   display: none;
   overflow: hidden;
@@ -264,7 +273,6 @@ export default {
   position: absolute;
   right: 0;
   width: 200px;
-  height: 100vh;
   box-sizing: border-box;
   background-color: #fff;
   border-left: solid rgb(216, 216, 216) 1px;
@@ -344,6 +352,7 @@ input:focus {
     flex-direction: row;
   }
   #users-block {
+    height: 100%;
     margin-left: 0;
   }
   .ub-1 {

@@ -1,8 +1,19 @@
 <template>
-  <div id="app">
+  <vue100vh :css="{ height: '100rvh' }" id="app">
     <router-view/>
-  </div>
+  </vue100vh>
 </template>
+
+<script>
+import vue100vh from 'vue-100vh';
+
+export default {
+  name: 'App',
+  components: {
+    vue100vh,
+  }
+}
+</script>
 
 <style>
 #app {
