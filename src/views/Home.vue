@@ -53,9 +53,10 @@
         <div class="loader"></div>  
       </div>
     </div>
-    <!-- Обязательно введите адрес ниже! -->
+
+    <!-- Необходимо указать ссылку на звук, который будет проигрываться когда приходит сообщение -->
     <audio
-      src="*address to sound*" 
+      src="*address*"
       preload
       ref="audio"
     ></audio>
@@ -69,7 +70,7 @@ import UsersBlock from '../components/UsersBlock';
 import LoginOverlay from '../components/LoginOverlay';
 import vue100vh from 'vue-100vh';
 
-// адрес к серверной части
+// Адрес серверной части
 const address = 'ws://localhost:2264';
 
 export default {
